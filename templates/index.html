@@ -5,6 +5,9 @@
     <title>GUDLFT Registration</title>
 </head>
 <body>
+    {% if message %}
+        <p>{{message}}</p>
+    {% endif %}
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
     Please enter your secretary email to continue:
     <form action="showSummary" method="post">
