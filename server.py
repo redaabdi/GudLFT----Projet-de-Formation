@@ -28,7 +28,7 @@ def index():
 def showSummary():
     email = request.form['email']
     if email :
-        club = next((club for club in clubs if club['email'] == email), None)
+        club = get_club_by_email(email, clubs)
         if club :
             return render_template('welcome.html',club=club,competitions=competitions)
         else :
@@ -66,3 +66,7 @@ def purchasePlaces():
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
+
+def get_club_by_email(email, clubs):
+    club = next((club for club in clubs if club['email'] == email), None)
+    return club
