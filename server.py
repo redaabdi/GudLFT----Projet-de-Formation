@@ -79,4 +79,6 @@ def get_club_by_email(email, clubs):
 def error_purchase(club, competition, placesRequired):
     if int(club["points"]) < placesRequired :
         return "You don't have enough points !"
+    elif placesRequired > 12 :
+        return "You can not book more than 12 places per competition !"
         
