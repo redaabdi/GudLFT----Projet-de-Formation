@@ -6,7 +6,7 @@ def get_pair_club_have_less_points_than_competition() :
     competition = max(competitions, key=lambda x: int(x["numberOfPlaces"]))
     return (club, competition)
 
-def test_purchase_places_enough_points(client): #happypath
+def test_purchase_places_valid(client): #happypath
     club = get_pair_club_have_less_points_than_competition()[0]
     competition = get_pair_club_have_less_points_than_competition()[1]
     response = client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : int(club["points"])-1 })
