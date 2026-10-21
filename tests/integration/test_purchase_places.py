@@ -18,3 +18,11 @@ def test_purchase_places_old_competition(client, clubs_for_test, competitions_fo
 
     assert response.status_code == 401
     assert "The competition ended !" in html.unescape(response.data.decode())
+
+def test_points_are_deducted(client, clubs_for_test, competitions_for_test) :
+    club = clubs_for_test[0]
+    club_points_now = int(club["points"])
+    competition = competitions_for_test[0]
+    client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : 3})
+
+    assert int(club['points']) == club_points_now - 3
