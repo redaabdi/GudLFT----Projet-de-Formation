@@ -1,6 +1,6 @@
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
-
+from datetime import datetime
 
 def loadClubs():
     with open('clubs.json') as c:
@@ -83,4 +83,6 @@ def error_purchase(club, competition, placesRequired):
         return "You can not book more than 12 places per competition !"
     elif placesRequired > int(competition['numberOfPlaces']) :
         return "You can not book more than the max of the competition !"
+    elif datetime.strptime(competition["date"], "%Y-%m-%d %H:%M:%S") < datetime.now():
+        return "The competition ended !"
         

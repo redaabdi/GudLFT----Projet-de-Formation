@@ -14,14 +14,19 @@ clubs = [{
 
 competitions = [{
             "name": "Spring Festival",
-            "date": "2020-03-27 10:00:00",
+            "date": "2027-03-27 10:00:00",
             "numberOfPlaces": "25",
         },
         {
-            "name": "Festival of joy",
-            "date": "2020-03-28 10:00:00",
+            "name": "Kyrox",
+            "date": "2027-03-28 10:00:00",
             "numberOfPlaces": "10",
-        }
+        },
+        {
+            "name": "Kyrox 2024",
+            "date": "2024-03-28 10:00:00",
+            "numberOfPlaces": "10",
+                }
         ]
 
 def test_not_enough_points():
@@ -50,3 +55,9 @@ def test_equal_places_than_competition():
 
 def test_more_places_than_competition():
     assert error_purchase(clubs[1], competitions[1], 11) == "You can not book more than the max of the competition !"
+
+def test_old_competition() :
+    assert error_purchase(clubs[1], competitions[2], 3) == "The competition ended !"
+
+def test_not_old_competition() :
+    assert error_purchase(clubs[1], competitions[1], 3) == None
