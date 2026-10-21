@@ -81,4 +81,6 @@ def error_purchase(club, competition, placesRequired):
         return "You don't have enough points !"
     elif placesRequired > 12 :
         return "You can not book more than 12 places per competition !"
+    elif placesRequired > int(competition['numberOfPlaces']) :
+        return "You can not book more than the max of the competition !"
         
