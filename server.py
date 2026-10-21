@@ -52,16 +52,18 @@ def book(competition,club):
 
 @app.route('/purchasePlaces',methods=['POST'])
 def purchasePlaces():
-    competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
+    competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     placesRequired = int(request.form['places'])
-    if int(club["points"]) >= placesRequired :
+    error = error_purchase(club, competition, placesRequired)
+    if error :
+        flash(error)
+        return render_template('welcome.html', club=club, competitions=competitions), 401
+    else :
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
         flash('Great-booking complete!')
         return render_template('welcome.html', club=club, competitions=competitions)
-    else :
-        flash("Error : You don't have enough points !")
-        return render_template('welcome.html', club=club, competitions=competitions), 401
+        
 
 # TODO: Add route for points display
 
@@ -73,3 +75,8 @@ def logout():
 def get_club_by_email(email, clubs):
     club = next((club for club in clubs if club['email'] == email), None)
     return club
+
+def error_purchase(club, competition, placesRequired):
+    if int(club["points"]) < placesRequired :
+        return "You don't have enough points !"
+        
