@@ -86,4 +86,5 @@ def error_purchase(club, competition, placesRequired):
         return "You can not book more than the max of the competition !"
     elif datetime.strptime(competition["date"], "%Y-%m-%d %H:%M:%S") < datetime.now():
         return "The competition ended !"
-        
+    elif placesRequired < 0 :
+            return "Please enter a positive number"
