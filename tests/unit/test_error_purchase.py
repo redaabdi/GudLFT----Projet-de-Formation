@@ -61,3 +61,6 @@ def test_old_competition() :
 
 def test_not_old_competition() :
     assert error_purchase(clubs[1], competitions[1], 3) == None
+
+def test_book_negative_places():
+    assert error_purchase(clubs[0], competitions[0], -3) == "Please enter a positive number"
