@@ -33,10 +33,10 @@ def showSummary():
             return render_template('welcome.html',club=club,competitions=competitions)
         else :
             message = "Sorry, that email wasn't found."
-            return render_template('index.html', message=message), 401
+            return render_template('index.html', message=message, clubs=clubs), 401
     else :
         message = "Please enter an email"
-        return render_template('index.html', message=message), 401
+        return render_template('index.html', message=message, clubs=clubs), 401
 
 
 @app.route('/book/<competition>/<club>')
@@ -63,12 +63,9 @@ def purchasePlaces():
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-int(placesRequired)
         club['points'] = int(club['points']) - int(placesRequired)
         competition['soldHistory'] += [[club["name"], int(placesRequired)]]
-        flash('Great-booking complete!')
+        flash(f'Great-booking complete! You booked {placesRequired} places')
         return render_template('welcome.html', club=club, competitions=competitions)
         
-
-# TODO: Add route for points display
-
 
 @app.route('/logout')
 def logout():
@@ -79,21 +76,19 @@ def get_club_by_email(email, clubs):
     return club
 
 def error_purchase(club, competition, placesRequired):
-    if isinstance(placesRequired, float) :
+    try:
+        placesRequired = int(placesRequired)
+    except (ValueError, TypeError):
         return "Please enter an integer number"
-    else :
-        try:
-            placesRequired = int(placesRequired)
-        except (ValueError, TypeError):
-            return "Please enter an integer number"
-    
+
+    total_places_booked = sum(places for club_name, places in competition['soldHistory'] if club_name == club["name"])
     if int(club["points"]) < placesRequired :
         return "You don't have enough points !"
-    elif placesRequired > 12 :
+    elif total_places_booked + placesRequired > 12 :
         return "You can not book more than 12 places per competition !"
     elif placesRequired > int(competition['numberOfPlaces']) :
         return "You can not book more than the max of the competition !"
     elif datetime.strptime(competition["date"], "%Y-%m-%d %H:%M:%S") < datetime.now():
         return "The competition ended !"
-    elif placesRequired < 0 :
+    elif placesRequired <= 0 :
             return "Please enter a positive number"

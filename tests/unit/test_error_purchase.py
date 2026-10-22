@@ -9,6 +9,11 @@ clubs = [{
         "name":"Summer Hit",
         "email":"john@summerhit.co",
         "points": "30"
+    },
+    {
+        "name":"Perform sleep repeat",
+        "email":"ronaldinho@perform.co",
+        "points": "20"
     }
     ]
 
@@ -16,16 +21,19 @@ competitions = [{
             "name": "Spring Festival",
             "date": "2027-03-27 10:00:00",
             "numberOfPlaces": "25",
+            "soldHistory" : [["Summer Hit", 7],[ "Simply Lift", 3], ["Summer Hit", 3]]
         },
         {
             "name": "Kyrox",
             "date": "2027-03-28 10:00:00",
             "numberOfPlaces": "10",
+            "soldHistory" : []
         },
         {
             "name": "Kyrox 2024",
             "date": "2024-03-28 10:00:00",
             "numberOfPlaces": "10",
+            "soldHistory" : []
                 }
         ]
 
@@ -38,14 +46,20 @@ def test_equal_points():
 def test_more_points():
     assert error_purchase(clubs[0], competitions[0], 3) == None
 
-def test_less_12_places():
-    assert error_purchase(clubs[1], competitions[0], 11) == None
+def test_less_12_places_once():
+    assert error_purchase(clubs[2], competitions[0], 11) == None
 
-def test_equal_12_places():
-    assert error_purchase(clubs[1], competitions[0], 12) == None
+def test_equal_12_places_once():
+    assert error_purchase(clubs[2], competitions[0], 12) == None
 
-def test_more_12_places():
-    assert error_purchase(clubs[1], competitions[0], 13) == "You can not book more than 12 places per competition !"
+def test_more_12_places_once():
+    assert error_purchase(clubs[2], competitions[0], 13) == "You can not book more than 12 places per competition !"
+
+def test_equal_12_places_total():
+    assert error_purchase(clubs[1], competitions[0], 2) == None
+
+def test_more_12_places_total():
+    assert error_purchase(clubs[1], competitions[0], 3) != None
 
 def test_less_places_than_competition():
     assert error_purchase(clubs[1], competitions[1], 9) == None

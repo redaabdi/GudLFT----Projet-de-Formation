@@ -51,7 +51,7 @@ def test_book_decimal_number_places(client, clubs_for_test, competitions_for_tes
 
     assert response.status_code == 401
 
-def test_soldHistory (client, clubs_for_test, competitions_for_test):
+def test_soldHistory(client, clubs_for_test, competitions_for_test):
     club1 = clubs_for_test[0]
     competition = competitions_for_test[0]
     client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club1["name"], "places" : 5 })
@@ -60,3 +60,12 @@ def test_soldHistory (client, clubs_for_test, competitions_for_test):
     client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club1["name"], "places" : 7 })
 
     assert competition["soldHistory"] == [[club1["name"], 5], [club2["name"], 3], [club1["name"], 7]]
+
+def test_book_12_places_max(client, clubs_for_test, competitions_for_test):
+    club = clubs_for_test[2]
+    competition = competitions_for_test[0]
+    client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : 5 })
+    client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : 5 })
+    response = client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : 3 })
+
+    assert response.status_code != 200
