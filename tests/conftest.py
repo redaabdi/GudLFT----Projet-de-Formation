@@ -20,9 +20,9 @@ def clubs_for_test(monkeypatch):
 @pytest.fixture
 def competitions_for_test(monkeypatch):
     data = [
-        {"name": "Kyrox 2027", "date": "2027-03-27 10:00:00", "numberOfPlaces": "25"},
-        {"name": "ZONE LIFT 2027", "date": "2027-03-27 10:00:00", "numberOfPlaces": "5"},
-        {"name": "PGW Bordeaux", "date": "2020-03-27 10:00:00", "numberOfPlaces": "25"}
+        {"name": "Kyrox 2027", "date": "2027-03-27 10:00:00", "numberOfPlaces": "25", "soldHistory" : []},
+        {"name": "ZONE LIFT 2027", "date": "2027-03-27 10:00:00", "numberOfPlaces": "5", "soldHistory" : []},
+        {"name": "PGW Bordeaux", "date": "2020-03-27 10:00:00", "numberOfPlaces": "25", "soldHistory" : []}
     ]
     monkeypatch.setattr(server, "competitions", data)
     return data

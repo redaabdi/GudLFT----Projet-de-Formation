@@ -62,6 +62,7 @@ def purchasePlaces():
     else :
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-int(placesRequired)
         club['points'] = int(club['points']) - int(placesRequired)
+        competition['soldHistory'] += [[club["name"], int(placesRequired)]]
         flash('Great-booking complete!')
         return render_template('welcome.html', club=club, competitions=competitions)
         
