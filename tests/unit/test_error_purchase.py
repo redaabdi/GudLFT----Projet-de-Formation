@@ -82,5 +82,8 @@ def test_book_negative_places():
 def test_book_string_place():
     assert error_purchase(clubs[0], competitions[0], "str") == "Please enter an integer number"
 
-def test_book_decimal_number_place():
-    assert error_purchase(clubs[0], competitions[0], 2.3) == "Please enter an integer number"
+def test_book_decimal_number_string_place():
+    assert error_purchase(clubs[0], competitions[0], "2.3") == "Please enter an integer number"
+
+def test_book_integer_string_place():
+    assert error_purchase(clubs[0], competitions[0], "2") == None
