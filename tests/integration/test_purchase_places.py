@@ -26,3 +26,13 @@ def test_points_are_deducted(client, clubs_for_test, competitions_for_test) :
     client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : 3})
 
     assert int(club['points']) == club_points_now - 3
+
+def test_book_negative_places(client, clubs_for_test, competitions_for_test):
+    club = clubs_for_test[0]
+    club_points_now = int(club["points"])
+    competition = competitions_for_test[0]
+    competition_points_now = int(club["points"])
+    client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : -3 })
+
+    assert int(club["points"]) != club_points_now + 3
+    assert int(competition["numberOfPlaces"]) != competition_points_now + 3
