@@ -44,7 +44,6 @@ def test_book_string_places(client, clubs_for_test, competitions_for_test):
 
     assert response.status_code == 401
 
-
 def test_book_decimal_number_places(client, clubs_for_test, competitions_for_test):
     club = clubs_for_test[0]
     competition = competitions_for_test[0]
