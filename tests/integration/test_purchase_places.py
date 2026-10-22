@@ -36,3 +36,18 @@ def test_book_negative_places(client, clubs_for_test, competitions_for_test):
 
     assert int(club["points"]) != club_points_now + 3
     assert int(competition["numberOfPlaces"]) != competition_points_now + 3
+
+def test_book_string_places(client, clubs_for_test, competitions_for_test):
+    club = clubs_for_test[0]
+    competition = competitions_for_test[0]
+    response = client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : "STR" })
+
+    assert response.status_code == 401
+
+
+def test_book_decimal_number_places(client, clubs_for_test, competitions_for_test):
+    club = clubs_for_test[0]
+    competition = competitions_for_test[0]
+    response = client.post('/purchasePlaces', data={"competition" : competition["name"], "club": club["name"], "places" : 13.6 })
+
+    assert response.status_code == 401

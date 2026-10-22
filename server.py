@@ -54,14 +54,14 @@ def book(competition,club):
 def purchasePlaces():
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
-    placesRequired = int(request.form['places'])
+    placesRequired = request.form['places']
     error = error_purchase(club, competition, placesRequired)
     if error :
         flash(error)
         return render_template('welcome.html', club=club, competitions=competitions), 401
     else :
-        competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
-        club['points'] = int(club['points']) - placesRequired
+        competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-int(placesRequired)
+        club['points'] = int(club['points']) - int(placesRequired)
         flash('Great-booking complete!')
         return render_template('welcome.html', club=club, competitions=competitions)
         
@@ -78,6 +78,14 @@ def get_club_by_email(email, clubs):
     return club
 
 def error_purchase(club, competition, placesRequired):
+    if isinstance(placesRequired, float) :
+        return "Please enter an integer number"
+    else :
+        try:
+            placesRequired = int(placesRequired)
+        except (ValueError, TypeError):
+            return "Please enter an integer number"
+    
     if int(club["points"]) < placesRequired :
         return "You don't have enough points !"
     elif placesRequired > 12 :
