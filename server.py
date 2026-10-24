@@ -22,7 +22,7 @@ clubs = loadClubs()
 
 @app.route('/')
 def index():
-    return render_template('index.html', clubs=clubs)
+    return render_template('index.html')
 
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
@@ -65,7 +65,10 @@ def purchasePlaces():
         competition['soldHistory'] += [[club["name"], int(placesRequired)]]
         flash(f'Great-booking complete! You booked {placesRequired} places')
         return render_template('welcome.html', club=club, competitions=competitions)
-        
+
+@app.route('/pointsDisplayBoard')
+def pointsDisplayBoard():
+    return render_template('pointsboard.html', clubs=clubs)
 
 @app.route('/logout')
 def logout():
