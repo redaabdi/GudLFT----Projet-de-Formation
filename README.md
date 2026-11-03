@@ -24,7 +24,7 @@ This project uses the following technologies:
 
 * **[coverage](https://coverage.readthedocs.io/)**: test coverage measurement.
 
-Other dependencies (Click, itsdangerous, Jinja2, MarkupSafe, Werkzeug) are installed automatically with Flask and are listed in `requirements.txt`.
+Other dependencies are listed in `requirements.txt`.
 
 ## 3. Installation
 
@@ -113,7 +113,8 @@ Other dependencies (Click, itsdangerous, Jinja2, MarkupSafe, Werkzeug) are insta
 
 ## 4. Current setup for data storage
 
-The app is powered by [JSON files](https://www.tutorialspoint.com/json/json_quick_guide.htm), to avoid needing a database until we actually need one. The main ones are:
+The app is powered by [JSON files](https://www.tutorialspoint.com/json/json_quick_guide.htm), to avoid needing a database until we actually need one. Changes are kept in memory only, so restarting the app resets the data. 
+We have :
 
 * `competitions.json`: list of competitions with their relevant information (e.g., number of places and date).
 * `clubs.json`: list of clubs with their relevant information (e.g., points). This is also where you can find the email addresses the app accepts for login.
@@ -127,7 +128,7 @@ We use [pytest](https://docs.pytest.org/) as our testing framework. All tests li
 Run from the project root, with the virtual environment activated:
 
 ```bash
-pytest
+pytest tests
 ```
 
 To run only one type of test:
@@ -140,23 +141,31 @@ pytest tests/functional
 
 ### Measuring coverage
 
-We use [coverage](https://coverage.readthedocs.io/) to show how well the code is tested.
-
-Run the tests through coverage:
-
-```bash
-coverage run -m pytest
-```
+We use [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/) to show how well the code is tested.
 
 Display the report in the terminal:
 
 ```bash
-coverage report
+pytest tests --cov=server
 ```
 
 Or generate a detailed HTML report:
 
 ```bash
-coverage html
+pytest tests --cov=server --cov-report=html
 ```
 
+### Measuring performance
+We use [locust](https://locust.io/) to measure performance
+
+1. On one terminal session, start the flask application
+
+2. In another terminal session, run locust (with virtual environment activated as well)
+
+```bash
+   locust
+```
+
+3. Open the locust interface on http://127.0.0.1:8089/
+
+4. Configure and start the load test
